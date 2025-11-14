@@ -10,6 +10,7 @@ import { HiMail, HiPhone, HiLocationMarker } from "react-icons/hi";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SOCIAL_LINKS } from "@/lib/constants";
 import { about } from "@/data/portfolio";
+import { useState } from "react";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -20,7 +21,16 @@ const contactSchema = z.object({
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+// Web3Forms Access Key - Get yours from https://web3forms.com
+// For now, using a public endpoint. You can add your access key later for better features
+const WEB3FORMS_ACCESS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "YOUR_ACCESS_KEY_HERE";
+
 export default function Contact() {
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
   const {
     register,
     handleSubmit,
@@ -31,11 +41,69 @@ export default function Contact() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    // Handle form submission
-    console.log(data);
-    // You can integrate with an API here
-    alert("Thank you for your message! I'll get back to you soon.");
-    reset();
+    try {
+      setSubmitStatus({ type: null, message: "" });
+
+      // Check if access key is configured
+      if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === "YOUR_ACCESS_KEY_HERE") {
+        setSubmitStatus({
+          type: "error",
+          message: "Form is not configured. Please contact me directly at " + about.email,
+        });
+        // Fallback: Open email client
+        window.location.href = `mailto:${about.email}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`)}`;
+        return;
+      }
+
+      // Using Web3Forms API - sends email directly to your inbox
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `Portfolio Contact: ${data.subject}`,
+          from_name: data.name,
+          from_email: data.email,
+          message: `
+Name: ${data.name}
+Email: ${data.email}
+Subject: ${data.subject}
+
+Message:
+${data.message}
+          `.trim(),
+          // Your email where you'll receive the form submissions
+          to: about.email,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus({
+          type: "success",
+          message: "Thank you for your message! I'll get back to you soon.",
+        });
+        reset();
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus({ type: null, message: "" });
+        }, 5000);
+      } else {
+        throw new Error(result.message || "Failed to send message");
+      }
+    } catch (error: any) {
+      console.error("Form submission error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: error.message?.includes("access_key") 
+          ? "Form configuration error. Please contact me directly at " + about.email
+          : "Something went wrong. Please try again or contact me directly via email.",
+      });
+    }
   };
 
   return (
@@ -224,6 +292,20 @@ export default function Contact() {
                   </p>
                 )}
               </div>
+
+              {submitStatus.type && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`p-4 rounded-lg ${
+                    submitStatus.type === "success"
+                      ? "bg-green-500/20 border border-green-500/50 text-green-400"
+                      : "bg-red-500/20 border border-red-500/50 text-red-400"
+                  }`}
+                >
+                  <p className="text-sm font-medium">{submitStatus.message}</p>
+                </motion.div>
+              )}
 
               <motion.button
                 type="submit"

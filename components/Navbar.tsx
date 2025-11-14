@@ -72,7 +72,7 @@ export default function Navbar() {
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
             ? "glass backdrop-blur-md shadow-lg"
-            : "bg-transparent"
+            : "bg-transparent border-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -84,12 +84,25 @@ export default function Navbar() {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
-              className="text-3xl font-extrabold gradient-text text-glow relative group"
+              className="text-3xl font-extrabold relative group"
+              style={{ 
+                WebkitFontSmoothing: 'antialiased',
+                MozOsxFontSmoothing: 'grayscale',
+                textRendering: 'optimizeLegibility',
+                isolation: 'isolate',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                backgroundSize: '200% 200%',
+                filter: 'none',
+                textShadow: 'none',
+                animation: 'gradient-shift 8s ease infinite'
+              }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
-              <span className="relative z-10">HA</span>
-              <span className="absolute inset-0 gradient-text opacity-0 group-hover:opacity-50 blur-xl transition-opacity" />
+              <span className="relative z-10" style={{ filter: 'none', willChange: 'auto', textShadow: 'none' }}>HA</span>
             </motion.a>
 
             {/* Desktop Navigation */}
