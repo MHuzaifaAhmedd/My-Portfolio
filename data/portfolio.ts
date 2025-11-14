@@ -176,5 +176,6 @@ export const about = {
   longBio: "I'm a dedicated developer with over a year of hands-on experience in creating full-stack web and mobile applications.\n\nAt Family Builders and Developers, I built platforms like Employee Management System, HR Management System, and Naba Hussam E-commerce using the MERN stack.\n\nFor my final year project, I created RastaNigheban.ai, an AI-based road safety app that detects potholes in real time using YOLO and React Native — integrating AI, GPS, and real-time backend processing.\n\nMy focus is on writing clean, maintainable code, designing intuitive UIs, and building systems that make life simpler and smarter.",
   location: "Karachi, Pakistan",
   email: "ahmedhuzaifa451@gmail.com",
+  resume: "/resume.pdf", // Path to your CV/Resume PDF in the public folder
 };
 

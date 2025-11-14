@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import { fadeInUp, slideInLeft, slideInRight, staggerContainer } from "@/lib/animations";
-import { HiArrowDown, HiCode, HiDeviceMobile } from "react-icons/hi";
+import { HiArrowDown, HiCode, HiDeviceMobile, HiDownload } from "react-icons/hi";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { SOCIAL_LINKS } from "@/lib/constants";
+import { about } from "@/data/portfolio";
 import ParticleBackground from "./ParticleBackground";
 
 export default function Hero() {
@@ -144,6 +145,19 @@ export default function Hero() {
                 →
               </motion.span>
             </span>
+          </motion.a>
+          <motion.a
+            href={about.resume}
+            download
+            className="px-6 sm:px-8 py-3 sm:py-4 rounded-full glass-strong border-2 border-secondary-500/30 text-foreground font-medium text-sm sm:text-base tracking-wide hover:border-secondary-500/50 transition-all group relative overflow-hidden w-full sm:w-auto text-center"
+            whileHover={{ scale: 1.05, y: -3 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <HiDownload className="w-5 h-5" />
+              Download CV
+            </span>
+            <div className="absolute inset-0 shimmer opacity-0 group-hover:opacity-100 transition-opacity" />
           </motion.a>
           <motion.a
             href="#contact"
