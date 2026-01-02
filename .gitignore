@@ -45,10 +45,3 @@ next-env.d.ts
 .DS_Store
 Thumbs.db
 
-# Deployment files
-Dockerfile
-.dockerignore
-nginx.conf
-nginx-portfolio.conf
-DEPLOYMENT-*.md
-DOMAIN-SETUP.md
