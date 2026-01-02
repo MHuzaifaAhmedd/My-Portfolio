@@ -1,0 +1,1 @@
+Refactor the code #file-name and make the code modular, by properly structuring and making it component based by breaking the code into components and the result code should be properly modularized. I need production grade code proeprly strucutred and modularized and refactored. First plan, structure the new changes and than build

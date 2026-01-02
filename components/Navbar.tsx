@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import { HiMenu, HiX } from "react-icons/hi";
-import { useTheme } from "next-themes";
-import { FiSun, FiMoon } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {

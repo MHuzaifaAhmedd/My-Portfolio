@@ -95,11 +95,12 @@ ${data.message}
       } else {
         throw new Error(result.message || "Failed to send message");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Form submission error:", error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
       setSubmitStatus({
         type: "error",
-        message: error.message?.includes("access_key") 
+        message: errorMessage.includes("access_key") 
           ? "Form configuration error. Please contact me directly at " + about.email
           : "Something went wrong. Please try again or contact me directly via email.",
       });
@@ -120,7 +121,7 @@ ${data.message}
             Get In <span className="gradient-text">Touch</span>
           </h2>
           <p className="text-foreground/70 text-lg max-w-2xl mx-auto">
-            Have a project in mind? Let's work together to bring your ideas to
+            Have a project in mind? Let&apos;s work together to bring your ideas to
             life.
           </p>
         </motion.div>
@@ -135,9 +136,9 @@ ${data.message}
           {/* Contact Info */}
           <motion.div variants={staggerItem} className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold mb-6">Let's Connect</h3>
+              <h3 className="text-2xl font-bold mb-6">Let&apos;s Connect</h3>
               <p className="text-foreground/70 mb-8">
-                I'm always open to discussing new projects, creative ideas, or
+                I&apos;m always open to discussing new projects, creative ideas, or
                 opportunities to be part of your visions.
               </p>
             </div>

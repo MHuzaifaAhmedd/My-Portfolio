@@ -43,7 +43,8 @@ body {
     radial-gradient(at 100% 0%, rgba(118, 75, 162, 0.05) 0px, transparent 50%),
     radial-gradient(at 100% 100%, rgba(250, 112, 154, 0.05) 0px, transparent 50%),
     radial-gradient(at 0% 100%, rgba(79, 172, 254, 0.05) 0px, transparent 50%);
-  background-attachment: fixed;
+  /* `background-attachment: fixed` can cause scroll jank on some machines/browsers */
+  background-attachment: scroll;
 }
 
 /* Premium Custom Scrollbar */
@@ -112,6 +113,16 @@ body {
   background-size: 200% 200%;
   animation: gradient-shift 8s ease infinite;
   filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.5));
+}
+
+/* Subtle gradient text for hero name - less shiny */
+.gradient-text-subtle {
+  background: linear-gradient(135deg, #8b9aff 0%, #a78bfa 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift-slow 12s ease infinite;
 }
 
 .gradient-text-gold {
@@ -206,8 +217,15 @@ body {
 }
 
 /* Ultra Smooth Transitions */
-* {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+/* Avoid applying expensive transitions (filter/backdrop-filter) to the whole page.
+   Limiting this drastically improves scroll performance. */
+a,
+button,
+input,
+textarea,
+select,
+[role="button"] {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 200ms;
 }
@@ -220,15 +238,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* GPU Acceleration for Animations */
+/* GPU Acceleration for Animations - Optimized */
 .motion-div,
 [class*="motion"],
 .glass,
 .glass-strong {
-  will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
-  perspective: 1000px;
 }
 
 /* Optimize scroll performance */
@@ -242,8 +258,28 @@ section {
   contain: layout style paint;
 }
 
+/* Optimize animations - reduce motion for better performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Premium Animations */
 @keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradient-shift-slow {
   0%, 100% {
     background-position: 0% 50%;
   }

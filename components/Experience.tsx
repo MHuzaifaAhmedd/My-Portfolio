@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import SectionWrapper from "./SectionWrapper";
 import { fadeInUp, staggerContainer, staggerItem, hoverLift } from "@/lib/animations";
 import { experience } from "@/data/portfolio";
-import { HiBriefcase, HiCalendar, HiLocationMarker } from "react-icons/hi";
+import { HiCalendar, HiLocationMarker } from "react-icons/hi";
 
 export default function Experience() {
   return (

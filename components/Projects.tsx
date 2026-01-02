@@ -5,7 +5,7 @@ import SectionWrapper from "./SectionWrapper";
 import { fadeInUp, staggerContainer, staggerItem, hoverLift } from "@/lib/animations";
 import { projects } from "@/data/portfolio";
 import { useState } from "react";
-import { HiExternalLink, HiCode } from "react-icons/hi";
+import { HiExternalLink } from "react-icons/hi";
 import { FaGithub } from "react-icons/fa";
 
 const categories = ["all", "web", "mobile", "fullstack"];
@@ -18,8 +18,6 @@ export default function Projects() {
     selectedCategory === "all"
       ? projects
       : projects.filter((project) => project.category === selectedCategory);
-
-  const featuredProjects = projects.filter((p) => p.featured);
 
   return (
     <SectionWrapper id="projects" className="py-20 md:py-32">

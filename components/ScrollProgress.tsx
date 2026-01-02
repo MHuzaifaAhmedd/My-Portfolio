@@ -6,13 +6,13 @@ import { useEffect, useRef } from "react";
 export default function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   
-  // Optimized spring for ultra-smooth 60Hz performance
+  // Optimized spring for better performance
   const scaleX = useSpring(scrollYProgress, {
-    stiffness: 50,
-    damping: 25,
+    stiffness: 100,
+    damping: 30,
     mass: 0.5,
-    restDelta: 0.0001,
-    restSpeed: 0.0001
+    restDelta: 0.001,
+    restSpeed: 0.001
   });
 
   const progressRef = useRef<HTMLDivElement>(null);
@@ -20,7 +20,6 @@ export default function ScrollProgress() {
   // Ensure GPU acceleration
   useEffect(() => {
     if (progressRef.current) {
-      progressRef.current.style.willChange = 'transform';
       progressRef.current.style.transform = 'translateZ(0)';
     }
   }, []);
@@ -32,8 +31,7 @@ export default function ScrollProgress() {
         className="h-full bg-gradient-to-r from-primary-500 via-secondary-500 to-luxury-500 relative overflow-hidden origin-left"
         style={{ 
           scaleX,
-          transform: 'translateZ(0)',
-          willChange: 'transform'
+          transform: 'translateZ(0)'
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />

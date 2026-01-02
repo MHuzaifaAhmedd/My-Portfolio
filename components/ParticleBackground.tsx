@@ -50,7 +50,7 @@ export default function ParticleBackground() {
     window.addEventListener("resize", handleResize, { passive: true });
 
     // Reduced particle count for better performance
-    const particleCount = 30;
+    const particleCount = 20;
     const canvasWidth = canvas.width / (window.devicePixelRatio || 1);
     const canvasHeight = canvas.height / (window.devicePixelRatio || 1);
     
@@ -63,7 +63,7 @@ export default function ParticleBackground() {
     }));
 
     let lastTime = 0;
-    const targetFPS = 30;
+    const targetFPS = 24; // Reduced from 30 to 24 for better performance
     const frameInterval = 1000 / targetFPS;
 
     const animate = (currentTime: number) => {
@@ -94,17 +94,18 @@ export default function ParticleBackground() {
           ctx.fillStyle = "rgba(14, 165, 233, 0.2)";
           ctx.fill();
 
-          // Draw connections (reduced distance check for performance)
+            // Draw connections (reduced distance check for performance)
           particlesRef.current.slice(i + 1).forEach((otherParticle) => {
             const dx = particle.x - otherParticle.x;
             const dy = particle.y - otherParticle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+            const distanceSquared = dx * dx + dy * dy; // Use squared distance to avoid sqrt
 
-            if (distance < 120) {
+            if (distanceSquared < 14400) { // 120^2 = 14400
+              const distance = Math.sqrt(distanceSquared);
               ctx.beginPath();
               ctx.moveTo(particle.x, particle.y);
               ctx.lineTo(otherParticle.x, otherParticle.y);
-              ctx.strokeStyle = `rgba(14, 165, 233, ${0.15 * (1 - distance / 120)})`;
+              ctx.strokeStyle = `rgba(14, 165, 233, ${0.12 * (1 - distance / 120)})`;
               ctx.lineWidth = 0.5;
               ctx.stroke();
             }
@@ -144,7 +145,7 @@ export default function ParticleBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
-      style={{ zIndex: 0, willChange: "transform" }}
+      style={{ zIndex: 0 }}
     />
   );
 }
